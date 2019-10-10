@@ -1,0 +1,343 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>HTTP · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="WSGI.md" />
+    
+    
+    <link rel="prev" href="中间件.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="中间件.html">
+            
+                <a href="中间件.html">
+            
+                    
+                    中间件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="HTTP.html">
+            
+                <a href="HTTP.html">
+            
+                    
+                    HTTP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="WSGI.md">
+            
+                <span>
+            
+                    
+                    WSGI
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >HTTP</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="&#x4E0E;django&#x7684;&#x4EA4;&#x4E92;"><center>&#x4E0E;django&#x7684;&#x4EA4;&#x4E92;</center></h2>
+<h3 id="&#x914D;&#x7F6E;url">&#x914D;&#x7F6E;URL</h3>
+<p>&#x5728;app.urls.py&#x6587;&#x4EF6;&#x7F16;&#x8F91;URL&#x5982;&#x4E0B;&#x683C;&#x5F0F;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5728;&#x53BB;project.urls&#x90A3;&#x91CC;&#x5F15;&#x5165;&#x5373;&#x53EF;</p>
+<pre><code># urls.py
+from django.urls import path
+from . import views
+urlpatterns = [
+    path(&apos;articles/2003/&apos;, views.special_case_2003),
+    path(&apos;articles/&lt;int:year&gt;/&apos;, views.year_archive),
+    path(&apos;articles/&lt;int:year&gt;/&lt;int:month&gt;/&apos;, views.month_archive)]
+</code></pre><h3 id="&#x89C6;&#x56FE;-&#x51FD;&#x6570;">&#x89C6;&#x56FE; &#x51FD;&#x6570;</h3>
+<p>&#x89C6;&#x56FE;&#xFF1A;</p>
+<pre><code># views.py
+from django.http import HttpResponse
+def my_view(request):
+    return HttpResponse(status=201) # Return a &quot;created&quot; (201) response code.
+</code></pre><h3 id="djangohttphttprequest">django.http.HttpRequest</h3>
+<p><strong><em><a href="https://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpRequest" title="HttpRequest&#x7C7B;&#x5C5E;&#x6027;&#x5B98;&#x65B9;&#x6587;&#x6863;" target="_blank">HttpRequest&#x7C7B;&#x5C5E;&#x6027;&#x5B98;&#x65B9;&#x6587;&#x6863;</a></em></strong></p>
+<p>&#x5F53;&#x8BF7;&#x6C42;&#x5230;&#x6765;&#x65F6;&#xFF0C;django&#x4F1A;&#x521B;&#x5EFA;&#x4E00;&#x4E2A; HttpRequest &#x5BF9;&#x8C61;&#x6765;&#x5305;&#x542B;&#x8BF7;&#x6C42;&#x7684;&#x5143;&#x6570;&#x636E;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x8FD9;&#x4E2A; HttpRequest &#x5BF9;&#x8C61;&#x4F5C;&#x4E3A;&#x89C6;&#x56FE;&#x51FD;&#x6570;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x53C2;&#x6570;</p>
+<pre><code># from django.http.request import HttpRequest / from django.http import HttpRequest&#xFF08;http&#x76EE;&#x5F55;&#x7684;__init__&#x6587;&#x4EF6;&#x5F15;&#x5165;&#x4E86;HttpRequest&#x7C7B;&#xFF09;
+# django.http.request.py
+class HttpRequest:
+    # A basic HTTP request&#x5BF9;&#x8C61;. #
+
+scheme             -&gt; str                                   # &#x6A21;&#x5F0F;&#xFF0C;HTTP &#x8FD8;&#x662F; HTTPS
+body               -&gt; bytes                                 # &#x4E8C;&#x8FDB;&#x5236;&#x8868;&#x793A;&#xFF0C;&#x539F;&#x751F; HTTP &#x8BF7;&#x6C42;&#x6570;&#x636E;
+path               -&gt; str                                   # &#x8BF7;&#x6C42;&#x7684;&#x5B8C;&#x6574;URL&#xFF0C;&#x4E0D;&#x5305;&#x62EC;&#x6A21;&#x5F0F;&#x548C;&#x57DF;&#x540D;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;&quot;/music/bands/the_beatles/&quot;
+path_info          -&gt; str                                   # &#x8BF7;&#x6C42;&#x7684; URL &#xFF0C;&#x53EA;&#x5305;&#x62EC; WSGIServer &#x53D1;&#x9001;&#x5230;app&#x7684;URL
+method             -&gt; str                                   # &#x8BF7;&#x6C42;&#x65B9;&#x6CD5;
+encoding           -&gt; str                                   # &#x8BF7;&#x6C42;&#x6570;&#x636E;&#x7684;&#x7F16;&#x7801;&#x65B9;&#x5F0F;&#xFF0C;&#x5982;&#x679C;&#x662F; None &#x5219;&#x4F7F;&#x7528; DEFAULT_CHARSET &#x9ED8;&#x8BA4;&#x5B57;&#x7B26;&#x914D;&#x7F6E;
+content_type       -&gt; str                                   # ????
+GET                -&gt; QueryDict: Dict like                  # &#x5305;&#x542B;&#x4E86; GET &#x8BF7;&#x6C42;&#x63D0;&#x4EA4;&#x7684;&#x6240;&#x6709;&#x53C2;&#x6570;&#xFF0C;ps&#xFF1A;QueryDict &#x662F; Dict &#x7684;&#x5B50;&#x7C7B;&#xFF0C;&#x89E3;&#x51B3;&#x4E86; HTML &#x590D;&#x9009;&#x6846;&#x8FD9;&#x79CD;&#x4E00;&#x4E2A; KEY &#x591A;&#x4E2A; Value &#x53C2;&#x6570;&#x7684; Dict &#x51B2;&#x7A81;
+POST               -&gt; QueryDict: Dict like                  # &#x5305;&#x542B; POST &#x63D0;&#x4EA4;&#x7684;&#x8868;&#x5355;&#x6570;&#x636E;&#xFF0C;&#x4E0D;&#x5305;&#x62EC;&#x4E0A;&#x4F20;&#x7684;&#x6587;&#x4EF6;
+COOKIES            -&gt; dict                                  # &#x5305;&#x542B;&#x4E86;&#x6240;&#x6709;&#x7684; cookies
+FILES              -&gt; MultiValueDict: Dict like             # &#x5305;&#x542B;&#x4E86;&#x6240;&#x6709;&#x4E0A;&#x4F20;&#x7684;&#x6587;&#x4EF6;&#xFF0C;key &#x662F;&#x4E0A;&#x4F20;&#x65F6;&#x8868;&#x5355;&#x4E0A;&#x7684; name&#xFF0C;value &#x662F;&#x4E00;&#x4E2A; UploadedFile &#x5BF9;&#x8C61;&#xFF0C;&#x53EA;&#x6709;&#x5F53; POST &#x7684; Content-Type &#x662F; &quot;multipart/form-data&quot; &#x683C;&#x5F0F;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x6709;&#x6570;&#x636E;&#xFF0C;ps:MultiValueDict &#x662F; Dict &#x7684;&#x5B50;&#x7C7B;&#xFF0C;
+</code></pre><h3 id="djangohttphttpresponse">django.http.HttpResponse</h3>
+<p><strong><em><a href="https://docs.djangoproject.com/en/dev/ref/request-response/#django.http.HttpResponse" title="HttpResponse&#x7C7B;&#x5C5E;&#x6027;&#x5B98;&#x65B9;&#x6587;&#x6863;" target="_blank">HttpResponse&#x7C7B;&#x5C5E;&#x6027;&#x5B98;&#x65B9;&#x6587;&#x6863;</a></em></strong></p>
+<p><strong><em><a href="https://docs.djangoproject.com/en/dev/ref/request-response/#django.http.StreamingHttpResponse" title="StreamingHttpResponse" target="_blank">StreamingHttpResponse&#x7C7B;&#x5C5E;&#x6027;&#x5B98;&#x65B9;&#x6587;&#x6863;</a></em></strong></p>
+<p>&#x670D;&#x52A1;&#x7AEF;&#x7684;&#x5DE5;&#x4F5C;&#x5C31;&#x662F;&#x6839;&#x636E;&#x8BF7;&#x6C42;&#xFF0C;&#x6784;&#x9020;&#x54CD;&#x5E94;&#x6570;&#x636E;&#x5E76;&#x8FD4;&#x56DE;</p>
+<p>&#x8BBE;&#x7F6E;&#x54CD;&#x5E94;&#x6B63;&#x6587;&#xFF0C;&#x53EF;&#x4EE5;&#x4F20;&#x5165;string&#xFF0C;bytestring &#x6216;&#x8005; memoryview&#x5BF9;&#x8C61; &#x4EE5;&#x53CA;&#x6240;&#x6709;&#x7684;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;</p>
+<pre><code>from django.http import HttpResponse
+response = HttpResponse(&quot;Here&apos;s the text of the Web page.&quot;)
+response = HttpResponse(b&apos;Bytestrings are also accepted.&apos;)
+response = HttpResponse(memoryview(b&apos;Memoryview as well.&apos;))
+
+# &#x5982;&#x679C;&#x521D;&#x59CB;&#x5316;&#x4E4B;&#x540E;&#x5E0C;&#x671B;&#x589E;&#x52A0;&#x6B63;&#x6587;&#xFF0C;&#x53EF;&#x4EE5;&#x50CF;&#x6587;&#x4EF6;&#x4E00;&#x6837;&#x5199;&#x5165;
+response = HttpResponse()
+response.write(&quot;&lt;p&gt;Here&apos;s the text of the Web page.&lt;/p&gt;&quot;)
+
+# &#x5982;&#x679C;&#x4F20;&#x5165;&#x4E00;&#x4E2A;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#xFF0C;HttpResponse &#x4F1A;&#x9A6C;&#x4E0A;&#x5C06;&#x5176;&#x8FED;&#x4EE3;&#x5E76;&#x5C06;&#x7ED3;&#x679C;&#x4EE5;str&#x8FD4;&#x56DE;&#xFF0C;&#x6700;&#x540E;&#x5982;&#x679C;&#x6709; close() &#x7684;&#x5BF9;&#x8C61;&#x8FD8;&#x4F1A;&#x9A6C;&#x4E0A;&#x5173;&#x95ED;&#xFF0C;&#x4F8B;&#x5982; file() &#x5BF9;&#x8C61;&#xFF0C;&#x5982;&#x679C;&#x5E0C;&#x671B;&#x4EE5; stream &#x6D41;&#x7684;&#x5F62;&#x5F0F;&#x8FD4;&#x56DE;&#x7ED9;&#x5BA2;&#x6237;&#x7AEF;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x7528;&#x5230; StreamingHttpResponse &#x5BF9;&#x8C61;
+</code></pre><p>&#x8BBE;&#x7F6E;&#x54CD;&#x5E94;&#x7684;&#x6D88;&#x606F;&#x62A5;&#x5934;&#xFF0C;&#x7528;&#x6CD5;&#x8DDF;&#x5B57;&#x5178;&#x4E00;&#x6837;&#xFF0C;&#x4E0D;&#x8FC7;&#x5BF9;&#x4E8E; Cache-Control &#x548C; Vary &#x63A8;&#x8350;&#x4F7F;&#x7528; django.utils.cache.patch_cache_control() &#x548C; django.utils.cache.patch_vary_headers()&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#x4E24;&#x4E2A;&#x54CD;&#x5E94;&#x5934;&#x80FD;&#x6709;&#x591A;&#x4E2A;&#x72EC;&#x7ACB;&#x7684;&#x503C;&#xFF0C;&#x4E0A;&#x9762;&#x4E24;&#x4E2A;&#x65B9;&#x6CD5;&#x80FD;&#x907F;&#x514D;&#x4E2D;&#x95F4;&#x4EF6;&#x7684;&#x8BBE;&#x7F6E;&#x4E0D;&#x88AB;&#x8986;&#x76D6;</p>
+<pre><code>response = HttpResponse()
+response[&apos;Age&apos;] = 120       # &#x4E0D;&#x5141;&#x8BB8;&#x6709;&#x6362;&#x884C;&#x7B26;
+del response[&apos;Age&apos;]         # &#x5373;&#x4F7F;&#x6CA1;&#x6709;&#x8BE5;&#x5B57;&#x6BB5;&#x5220;&#x9664;&#x4E5F;&#x4E0D;&#x4F1A;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#xFF0C;&#x8FD9;&#x70B9;&#x8DDF; dict &#x4E0D;&#x540C;
+
+# &#x5982;&#x679C;&#x5E0C;&#x671B;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x6587;&#x4EF6;&#xFF0C;&#x5219;&#x9700;&#x8981;&#x8BBE;&#x7F6E; Content-Type &#x4E3A;&#x5BF9;&#x5E94;&#x503C;&#xFF0C;&#x5E76;&#x4E14;&#x8BBE;&#x7F6E; Content-Disposition &#x54CD;&#x5E94;&#x5934;&#xFF0C;&#x4F8B;&#x5982;&#x4E0B;&#x9762;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;xls&#x6587;&#x4EF6;
+response = HttpResponse(my_data, content_type=&apos;application/vnd.ms-excel&apos;)
+response[&apos;Content-Disposition&apos;] = &apos;attachment; filename=&quot;foo.xls&quot;&apos;
+</code></pre><p>HttpResponse &#x5C5E;&#x6027;</p>
+<pre><code>content             -&gt; bytes  # &#x8FD4;&#x56DE;&#x5185;&#x5BB9;
+charset             -&gt; str    # &#x5B57;&#x7B26;&#x96C6;
+status_code         -&gt; int    # &#x8FD4;&#x56DE;&#x72B6;&#x6001;&#x7801;
+reason_phrase       -&gt; str    # &#x4E0E;&#x72B6;&#x6001;&#x7801;&#x914D;&#x5BF9;&#x7684;&#x6587;&#x672C;&#xFF0C;&#x4E0D;&#x8BBE;&#x7F6E;&#x5219;&#x81EA;&#x52A8;&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x6807;&#x51C6;
+streaming           -&gt; bool   # &#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x533A;&#x5206;&#x662F; HttpResponse &#x5BF9;&#x8C61;&#x8FD8;&#x662F; StreamingHttpResponse &#x5BF9;&#x8C61;&#xFF0C;&#x524D;&#x8005;&#x662F; False , &#x540E;&#x8005;&#x662F; True
+closed              -&gt; bool   # &#x5982;&#x679C;&#x4E3A;True&#x5219;&#x8868;&#x660E; Response &#x5BF9;&#x8C61;&#x76F8;&#x5173;&#x7684;&#x5C5E;&#x6027;&#x90FD;&#x5DF2;&#x7ECF;&#x5173;&#x95ED;
+</code></pre><h3 id="djangohttpstreaminghttpresponse">django.http.StreamingHttpResponse</h3>
+<p>StreamingHttpResponse &#x548C; HttpResponse &#x90FD;&#x662F; HttpResponseBase &#x7684;&#x5B50;&#x7C7B;</p>
+<p>&#x524D;&#x9762;&#x8BF4;&#x4E86;&#x5F53; HttpResponse &#x7528;&#x5F53;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#x521D;&#x59CB;&#x5316;&#x7684;&#x65F6;&#x5019;&#x4F1A;&#x76F4;&#x63A5;&#x6267;&#x884C;&#x5B8C;&#x8BE5;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#xFF0C;&#x4F46;&#x662F;&#x5F53;&#x4E00;&#x4E2A;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#x975E;&#x5E38;&#x5927;&#x7684;&#x65F6;&#x5019;&#xFF08;&#x4F8B;&#x5982;&#x4E00;&#x4E2A;&#x5927;CSV&#x6570;&#x636E;&#x6587;&#x4EF6;&#xFF09;&#xFF0C;&#x5185;&#x5B58;&#x4F1A;&#x5D29;&#x6E83;&#xFF0C;&#x6B64;&#x65F6;&#x5C31;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; Stream &#x6D41;&#x5F0F;&#x4F20;&#x8F93;</p>
+<p>StreamingHttpResponse &#x4E0E; HttpResponse &#x51E0;&#x4E4E;&#x4E00;&#x6837;&#xFF0C;&#x4F46;&#x6709;&#x4EE5;&#x4E0B;&#x5DEE;&#x522B;</p>
+<ul>
+<li>&#x53EA;&#x80FD;&#x4F20;&#x5165;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x4E14;&#x6BCF;&#x6B21; yield &#x8FD4;&#x56DE;&#x7684; string &#x4F1A;&#x4F5C;&#x4E3A;&#x4F20;&#x8F93;&#x5185;&#x5BB9;</li>
+<li>&#x53EA;&#x80FD;&#x901A;&#x8FC7;&#x4F20;&#x5165;&#x7684;&#x53EF;&#x8FED;&#x4EE3;&#x5BF9;&#x8C61;&#x6765;&#x83B7;&#x53D6;&#x4F20;&#x8F93;&#x5185;&#x5BB9;&#xFF08;HttpResponse&#x521D;&#x59CB;&#x5316;&#x4E4B;&#x540E;&#x53EF;&#x4EE5;&#x8BBF;&#x95EE;content&#x5C5E;&#x6027;&#xFF09;</li>
+<li>&#x6CA1;&#x6709; content &#x5C5E;&#x6027;&#xFF0C;&#x53EA;&#x6709; streaming_contetn &#x5C5E;&#x6027;</li>
+<li>&#x4E0D;&#x80FD;&#x50CF; file-like &#x5BF9;&#x8C61;&#x90A3;&#x6837;&#x8C03;&#x7528; tell(), write()&#x65B9;&#x6CD5;&#x5728;&#x521D;&#x59CB;&#x5316;&#x540E;&#x6DFB;&#x52A0;&#x8FD4;&#x56DE;&#x5185;&#x5BB9;</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="中间件.html" class="navigation navigation-prev " aria-label="Previous page: 中间件">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="WSGI.md" class="navigation navigation-next " aria-label="Next page: WSGI">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"HTTP","level":"1.2","depth":1,"next":{"title":"WSGI","level":"1.3","depth":1,"path":"WSGI.md","ref":"WSGI.md","articles":[]},"previous":{"title":"中间件","level":"1.1","depth":1,"path":"中间件.md","ref":"中间件.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"HTTP.md","mtime":"2019-10-10T03:12:17.458Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-10-10T03:13:29.513Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
